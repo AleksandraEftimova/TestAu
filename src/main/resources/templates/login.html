@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login Form</title>
+    <link href="/main.css" rel="stylesheet"/>
+</head>
+<body>
+<form th:method="POST" th:action="@{/login}">
+    <label for="username">Username:</label>
+    <input type="text" id="username" name="username"/><br/>
+    <label for="password">Password:</label>
+    <input type="text" id="password" name="password"/><br/><br/>
+
+<!-- uslovno pojavuvanje na odredeni delovi na strana -->
+<!-- ako ima errori prikazi gi -->
+    <div th:if="${hasError}" class="error">
+        <div th:text="${error}"></div>
+    </div>
+
+    <input type="submit" th:value="Submit">
+</form>
+</body>
+</html>

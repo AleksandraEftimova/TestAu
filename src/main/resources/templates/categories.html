@@ -8,6 +8,20 @@
 <h2>Info about our requests</h2>
 <div>IP Address:<th:block th:text="${ipaddress}"></th:block></div>
 <div>Client Agent:<th:block th:text="${clientAgent}"></th:block></div>
+
+<!-- bidejki na start nemame dozvola, stavame uslov za pojavuvanje ako ima sesija-->
+<th:block th:if="${session.user!=null}">
+    <h2>Info about user (from session)</h2>
+    <div th:text="${session.user.username}"></div>
+    <div th:text="${session.user.name}"></div>
+    <div th:text="${session.user.surname}"></div>
+
+    <!-- za odjava -->
+    <div>
+        <a href="/logout">Logout</a>
+    </div>
+</th:block>
+
 <h2>Categories</h2>
 <ul>
     <li th:each="category : ${categories}"><th:block th:text="${category.name}"></th:block></li>
