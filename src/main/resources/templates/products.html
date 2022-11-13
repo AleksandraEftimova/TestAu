@@ -2,8 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-
+    <title>Products</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -54,6 +53,65 @@
         <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
     </div>
 </section>
+
+<!-- Pretstavuvanje na site produkti -->
+<div class="container mb-5">
+    <div class="row">
+        <!-- Uslov samo ako ima produkti -->
+        <div class="col-12" th:if="${products.size() > 0}">
+            <div class="table table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">Product name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Category</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Za sekoj produkt prikazi go slednoto -->
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.getName()}"></td>
+                            <td th:text="${product.getPrice()}"></td>
+                            <!-- Proverka dali postoi objekt od proizvoditel i kategorija-->
+                            <td th:text="${product.getManufacturer() != null}
+                            ? ${product.getManufacturer().getName()} : 'No Manufacturer'"></td>
+                            <td th:text="${product.getCategory() != null}
+                            ? ${product.getCategory().getName()} : 'No Category'"></td>
+
+                            <!-- Delete kopce -->
+                            <td class="text-right">
+                                <form th:method="delete"
+                                      th:action="@{'/products/delete/{id}' (id=${product.getId()})}">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Delete</i>
+                                    </button>
+                                </form>
+
+                                <!-- Edit kopce -->
+                                <a class="btn btn-sm btn-info"
+                                   th:href="@{'/products/edit-form/{id}'(id=${product.getId()})}">
+                                    <i class="fa fa-trash">Edit</i>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Posebno kopce za dodavanje produkt -->
+        <div class="col mb-3">
+            <div class="row">
+                <div class="col-sm-12 col-md-12">
+                    <a href="/products/add-form" class="btn btn-block btn-dark">Add new product</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <footer class="text-black-50 mt-xl-5">
     <div class="container">

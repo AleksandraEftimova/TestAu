@@ -35,6 +35,11 @@ public class InMemoryCategoryRepository {
         return DataHolder.categories.stream().filter(r->r.getName().equals(name)).findFirst();
     }
 
+    public Optional<Category> findById(Long id){
+        //najdi go prviot element koj go ima imeto sto go barame
+        return DataHolder.categories.stream().filter(r->r.getId().equals(id)).findFirst();
+    }
+
     //prebaruvanje da se vrati lista od kategorii spored tekst
     public List<Category> search(String text){
         return DataHolder.categories.stream().filter(r->r.getName().contains(text)
