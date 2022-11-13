@@ -27,7 +27,8 @@ public class LoginFilter implements Filter {
 
         String path = request.getServletPath();
         //dali userot e null, proverka i na patekata za da ne dobieme endless loop
-        if (!"/login".equals(path) && !"/main.css".equals(path) && user==null) {
+        //i register go dodavame
+        if (!"/login".equals(path) && !"/register".equals(path) && !"/main.css".equals(path) && user==null) {
             response.sendRedirect("/login");
         } else {
             filterChain.doFilter(servletRequest, servletResponse);

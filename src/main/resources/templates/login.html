@@ -5,20 +5,29 @@
     <title>Login Form</title>
     <link href="/main.css" rel="stylesheet"/>
 </head>
+
 <body>
-<form th:method="POST" th:action="@{/login}">
-    <label for="username">Username:</label>
-    <input type="text" id="username" name="username"/><br/>
-    <label for="password">Password:</label>
-    <input type="text" id="password" name="password"/><br/><br/>
+    <!--<form class="form-signin mt-xl-5" method="post" action="/login">-->
+    <form th:method="POST" th:action="@{/login}">
+        <p>
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username"/><br/>
+        </p>
+        <p>
+            <label for="password">Password:</label>
+            <input type="text" id="password" name="password"/><br/><br/>
+        </p>
 
-<!-- uslovno pojavuvanje na odredeni delovi na strana -->
-<!-- ako ima errori prikazi gi -->
-    <div th:if="${hasError}" class="error">
-        <div th:text="${error}"></div>
-    </div>
+    <!-- uslovno pojavuvanje na odredeni delovi na strana -->
+    <!-- ako ima errori prikazi gi -->
+        <div th:if="${hasError}" class="error">
+            <div th:text="${error}"></div>
+        </div>
 
-    <input type="submit" th:value="Submit">
-</form>
+        <input class="btn btn-lg btn-primary btn-block" type="submit" th:value="Submit">
+    </form>
+
+    <a href="/register" class="btn btn-block btn-light">Register here</a>
+
 </body>
 </html>
