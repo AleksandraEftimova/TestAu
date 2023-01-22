@@ -11,7 +11,10 @@ public class InMemoryUserRepository {
 
     //najdi korisnik spored username
     public Optional<User> findByUsername(String username){
-        return DataHolder.users.stream().filter(r->r.getUsername().equals(username)).findFirst();
+        return DataHolder.users
+                .stream()
+                .filter(r->r.getUsername().equals(username))
+                .findFirst();
     }
 
     //najdi korisnik spored username i password

@@ -1,10 +1,7 @@
 package webp.testau.bootstrap;
 
 import org.springframework.stereotype.Component;
-import webp.testau.model.Category;
-import webp.testau.model.Manufacturer;
-import webp.testau.model.Product;
-import webp.testau.model.User;
+import webp.testau.model.*;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
@@ -24,6 +21,9 @@ public class DataHolder {
 
     //lsita od produkti
     public static List<Product> products = new ArrayList<>();
+
+    //lista od kosnicki
+    public static List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
     @PostConstruct
     public void init(){

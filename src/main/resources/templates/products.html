@@ -39,8 +39,13 @@
                         </button>
                     </div>
                     <a class="btn btn-primary btn-sm ml-3" href="/logout">
-                        <i class="fa fa-shoppimg-cart"></i>
+                        <i class="fa fa-shopping-cart"></i>
                         Logout
+                    </a>
+
+                    <a class="btn btn-light btn-sm ml-3" href="/shopping-cart">
+                        <i class="fa fa-shopping-cart"></i>
+                        Cart
                     </a>
                 </div>
             </form>
@@ -95,6 +100,13 @@
                                     <i class="fa fa-trash">Edit</i>
                                 </a>
 
+                                <!-- Add to cart kopce-->
+                                <form th:method="post"
+                                      th:action="@{'/shopping-cart/add-product/{id}' (id=${product.getId()})}">
+                                    <button type="submit" class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash">Add product to cart</i>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
