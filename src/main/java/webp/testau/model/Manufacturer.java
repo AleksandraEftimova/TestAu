@@ -9,13 +9,13 @@ import javax.persistence.Table;
 
 @Data
 @Entity
-@Table(name="manufacturers")
+//@Table(name="manufacturers")
 public class Manufacturer {
     @Id
     private Long id;
     private String name;
 
-    @Column(name="manufacturer-address")
+//    @Column(name="manufacturer-address")
     private String address;
 
     public Manufacturer(String name, String address) {

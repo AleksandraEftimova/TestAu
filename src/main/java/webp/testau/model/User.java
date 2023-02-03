@@ -7,7 +7,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(name = "shop users")
+@Table(name = "shop_users")
 public class User {
     @Id
     private String username;
@@ -15,6 +15,7 @@ public class User {
     private String name;
     private String surname;
 
+    //ToMany=Lazy, ToOne=Eager by default
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     private List<ShoppingCart> carts;
 

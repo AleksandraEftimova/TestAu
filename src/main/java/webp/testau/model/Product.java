@@ -24,8 +24,9 @@ public class Product {
     @ManyToOne
     private Manufacturer manufacturer;
 
-    @ManyToMany(mappedBy = "products")
-    private List<ShoppingCart> carts;
+    //bez povratna vrska, moze da pravi problemi ponatamu
+//    @ManyToMany(mappedBy = "products")
+//    private List<ShoppingCart> carts;
 
     public Product(String name, Double price, Integer quantity, Category category, Manufacturer manufacturer) {
         this.id = (long) (Math.random() * 1000);
