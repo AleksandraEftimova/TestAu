@@ -1,33 +1,22 @@
-<!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Login Form</title>
-    <link href="/main.css" rel="stylesheet"/>
-</head>
-
-<body>
-    <!--<form class="form-signin mt-xl-5" method="post" action="/login">-->
-    <form th:method="POST" th:action="@{/login}">
+<th:block>
+<div class="container" xmlns:th="http://www.thymeleaf.org">
+    <form class="form-signin mt-xl-5" method="post" action="/login">
+        <h2 class="form-signin-heading">Sign in</h2>
         <p>
-            <label for="username">Username:</label>
-            <input type="text" id="username" name="username"/><br/>
+            <label for="username" class="sr-only">Username</label>
+            <input type="text" id="username" name="username" class="form-control" placeholder="Username" required=""
+                   autofocus="">
         </p>
         <p>
-            <label for="password">Password:</label>
-            <input type="text" id="password" name="password"/><br/><br/>
+            <label for="password" class="sr-only">Password</label>
+            <input type="password" id="password" name="password" class="form-control" placeholder="Password"
+                   required="">
         </p>
 
-    <!-- uslovno pojavuvanje na odredeni delovi na strana -->
-    <!-- ako ima errori prikazi gi -->
-        <div th:if="${hasError}" class="error">
-            <div th:text="${error}"></div>
-        </div>
+        <div th:text="${param.error}" class="text-danger"></div>
 
-        <input class="btn btn-lg btn-primary btn-block" type="submit" th:value="Submit">
+        <button id="submit" class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
-
     <a href="/register" class="btn btn-block btn-light">Register here</a>
-
-</body>
-</html>
+</div>
+</th:block>

@@ -39,7 +39,8 @@ public class ProductController {
         //vrakjame produkti
         List<Product> products = this.productService.findAll();
         model.addAttribute("products", products);
-        return "products";
+        model.addAttribute("bodyContent", "products");
+        return "master-template";
     }
 
     //za brisenje mora da znaeme id koe go zemame vaka

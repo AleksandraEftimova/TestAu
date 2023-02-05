@@ -1,147 +1,76 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Products</title>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-  <!-- Optional JavaScript -->
-  <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ" crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script>
+    <meta charset="UTF-8">
+    <title>Products</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
+            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
+            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
+            crossorigin="anonymous"></script>
 
 
 </head>
 <body>
-<nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <div class="container">
-    <a class="navbar-brand" href="/home">WEB PROGRAMMING SHOP</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarsExampleDefault">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">
-      <ul class="navbar-nav m-auto">
-        <li class="nav-item m-auto">
-          <a class="nav-link active" href="/home">Home</a>
-        </li>
-        <li class="nav-item m-auto">
-          <a class="nav-link active" href="/products">Products</a>
-        </li>
-      </ul>
+<th:block>
 
-      <form class="form-inline my-2 my-lg-8">
-        <div class="input-group input-group-sm">
-          <input type="text" class="form-control" placeholder="Search...">
-          <div class="input-group-append">
-            <button type="button" class="btn btn-secondary btn-number">
-              <i class="fa fa-search"></i>
-            </button>
-          </div>
-          <a class="btn btn-primary btn-sm ml-3" href="/logout">
-            <i class="fa fa-shopping-cart"></i>
-            Logout
-          </a>
-
-          <a class="btn btn-light btn-sm ml-3" href="/shopping-cart">
-            <i class="fa fa-shopping-cart"></i>
-            Cart
-          </a>
+    <section class="jumbotron text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Shopping cart for
+                <th:block th:if="${session.user != null}"
+                          th:text="${session.user.getUsername()}"></th:block>
+            </h1>
         </div>
-      </form>
+    </section>
+
+    <div th:if="${hasError}">
+        <h5 class="text-center text-danger" th:text="${error}"></h5>
     </div>
-  </div>
-</nav>
 
-<section class="jumbotron text-center">
-  <div class="container">
-    <h1 class="jumbotron-heading">Shopping cart for
-      <th:block th:if="${session.user != null}"
-                th:text="${session.user.getUsername()}"></th:block> </h1>
-  </div>
-</section>
-
-<div th:if="${hasError}">
-  <h5 class="text-center text-danger" th:text="${error}"></h5>
-</div>
-
-<!-- Pretstavuvanje na site produkti -->
-<div class="container mb-5">
-  <div class="row">
-    <!-- Uslov samo ako ima produkti -->
-    <div class="col-12" th:if="${products.size() > 0}">
-      <div class="table table-responsive">
-        <table class="table table-striped">
-          <thead>
-          <tr>
-            <th scope="col">Product name</th>
-            <th scope="col">Price</th>
-            <th scope="col">Manufacturer</th>
-            <th scope="col">Category</th>
-          </tr>
-          </thead>
-          <tbody>
-          <!-- Za sekoj produkt prikazi go slednoto -->
-          <tr th:each="product : ${products}">
-            <td th:text="${product.getName()}"></td>
-            <td th:text="${product.getPrice()}"></td>
-            <!-- Proverka dali postoi objekt od proizvoditel i kategorija-->
-            <td th:text="${product.getManufacturer() != null}
+    <!-- Pretstavuvanje na site produkti -->
+    <div class="container mb-5">
+        <div class="row">
+            <!-- Uslov samo ako ima produkti -->
+            <div class="col-12" th:if="${products.size() > 0}">
+                <div class="table table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">Product name</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Manufacturer</th>
+                            <th scope="col">Category</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!-- Za sekoj produkt prikazi go slednoto -->
+                        <tr th:each="product : ${products}">
+                            <td th:text="${product.getName()}"></td>
+                            <td th:text="${product.getPrice()}"></td>
+                            <!-- Proverka dali postoi objekt od proizvoditel i kategorija-->
+                            <td th:text="${product.getManufacturer() != null}
                             ? ${product.getManufacturer().getName()} : 'No Manufacturer'"></td>
-            <td th:text="${product.getCategory() != null}
+                            <td th:text="${product.getCategory() != null}
                             ? ${product.getCategory().getName()} : 'No Category'"></td>
 
-          </tr>
-          </tbody>
-        </table>
-      </div>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+
+        </div>
     </div>
 
-
-  </div>
-</div>
-
-<footer class="text-black-50 mt-xl-5">
-  <div class="container">
-    <div class="row">
-      <div class="col-md-3 col-lg-4 col-xl-3">
-        <h5>About</h5>
-        <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">
-        <p class="mb-8"> Le Lorem Impsum est simplement du faux texte employe dans la composition et mise en place dans l'impression.</p>
-      </div>
-      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-        <h5>Information</h5>
-        <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">
-        <ul class="list-unstyled">
-          <li><a href="">Link 1</a></li>
-          <li><a href="">Link 2</a></li>
-          <li><a href="">Link 3</a></li>
-          <li><a href="">Link 4</a></li>
-        </ul>
-      </div>
-      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-        <h5>Other links</h5>
-        <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">
-        <ul class="list-unstyled">
-          <li><a href="">Link 1</a></li>
-          <li><a href="">Link 2</a></li>
-          <li><a href="">Link 3</a></li>
-          <li><a href="">Link 4</a></li>
-        </ul>
-      </div>
-      <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">
-        <h5>Contact</h5>
-        <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">
-        <ul class="list-unstyled">
-          <li>My company</li>
-          <li>email@example.com</li>
-          <li>+11 12 13 14 15</li>
-          <li>+11 12 13 14 15</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</footer>
-
+</th:block>
 </body>
 </html>

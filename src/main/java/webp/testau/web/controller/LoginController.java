@@ -27,8 +27,9 @@ public class LoginController {
 
     //za da bide get baranje treba da go mapirame
     @GetMapping
-    public String getLoginPage(){
-        return "login";
+    public String getLoginPage(Model model){
+        model.addAttribute("bodyContent", "login");
+        return "master-template";
     }
 
     //za postiranje
