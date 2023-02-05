@@ -43,7 +43,7 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     @Override
     public List<Product> listAllProductsInShoppingCart(Long cartId) {
         //ako ne postoi kosnickata frli exception
-        if(!this.shoppingCartRepository.findById(cartId).isEmpty()) {
+        if(!this.shoppingCartRepository.findById(cartId).isPresent()) {
             throw new ShoppingCartNotFoundException(cartId);
         }
         return this.shoppingCartRepository.findById(cartId).get().getProducts();
@@ -77,12 +77,14 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
         //pronaogjanje na produktot sto sakame da go dodademe
         Product product = this.productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException(productId));
+
         //dali produktot postoi vo kosnickata, ima poveke od 0 so isto id
         if(shoppingCart.getProducts()
                 .stream().filter(r->r.getId().equals(productId))
                 .collect(Collectors.toList()).size() > 0) {
             throw new ProductAlreadyInShoppingCartException(productId, username);
         }
+
         //go dodavame produktot i zacuvuvame
         shoppingCart.getProducts().add(product);
         return this.shoppingCartRepository.save(shoppingCart);

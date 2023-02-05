@@ -19,20 +19,18 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @GetMapping("/")
-    public String getShoppingCartPage(@RequestParam(required = false) String error,
-                                      HttpServletRequest req, Model model){
-        if(error != null && !error.isEmpty()) {
+    @GetMapping
+    public String getProductPage (@RequestParam(required = false) String error, Model model,
+                                  HttpServletRequest req){
+        //proverka dali treba da frlime error
+        if (error != null && !error.isEmpty()){
             model.addAttribute("hasError", true);
             model.addAttribute("error", error);
         }
+
         User user = (User) req.getSession().getAttribute("user");
         ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
         model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
-//        String username = req.getRemoteUser();
-//        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
-//        model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
-//        model.addAttribute("bodyContent", "shopping-cart");
         return "shopping-cart";
     }
 
