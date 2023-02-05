@@ -6,11 +6,12 @@ import webp.testau.model.Manufacturer;
 import webp.testau.model.Product;
 import webp.testau.model.exceptions.CategoryNotFoundException;
 import webp.testau.model.exceptions.ManufacturerNotFoundException;
-import webp.testau.repository.InMemoryCategoryRepository;
-import webp.testau.repository.InMemoryManufacturerRepository;
-import webp.testau.repository.InMemoryProductRepository;
+import webp.testau.repository.jpa.CategoryRepository;
+import webp.testau.repository.jpa.ManufacturerRepository;
+import webp.testau.repository.jpa.ProductRepository;
 import webp.testau.service.ProductService;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,16 +19,23 @@ import java.util.Optional;
 public class ProductServiceImpl implements ProductService {
 
     //zavisnosti, inject the repository
-    private final InMemoryProductRepository productRepository;
-    private final InMemoryCategoryRepository categoryRepository;
-    private final InMemoryManufacturerRepository manufacturerRepository;
+//    private final InMemoryProductRepository productRepository;
+//    private final InMemoryCategoryRepository categoryRepository;
+//    private final InMemoryManufacturerRepository manufacturerRepository;
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ManufacturerRepository manufacturerRepository;
 
-    public ProductServiceImpl(InMemoryProductRepository productRepository, InMemoryCategoryRepository categoryRepository, InMemoryManufacturerRepository manufacturerRepository) {
+//    public ProductServiceImpl(InMemoryProductRepository productRepository, InMemoryCategoryRepository categoryRepository, InMemoryManufacturerRepository manufacturerRepository) {
+//        this.productRepository = productRepository;
+//        this.categoryRepository = categoryRepository;
+//        this.manufacturerRepository = manufacturerRepository;
+//    }
+    public ProductServiceImpl(ProductRepository productRepository, CategoryRepository categoryRepository, ManufacturerRepository manufacturerRepository) {
         this.productRepository = productRepository;
         this.categoryRepository = categoryRepository;
         this.manufacturerRepository = manufacturerRepository;
     }
-
 
     @Override
     public List<Product> findAll() {
@@ -45,6 +53,7 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
+    @Transactional
     public Optional<Product> save(String name, Double price, Integer quantity, Long categoryId, Long manufacturerId) {
         //vidi koja kategorija go ima toa id i koj proizvoditel toa id,
         //togas vrati metod save
@@ -56,8 +65,10 @@ public class ProductServiceImpl implements ProductService {
         Manufacturer manufacturer = this.manufacturerRepository.findById(manufacturerId)
                 .orElseThrow(() -> new ManufacturerNotFoundException(manufacturerId));
 
+        //ako ima so isto ime izbrisi
+        this.productRepository.deleteByName(name);
         //ako se pomine kako sto treba togas samo gi dodavame
-        return this.productRepository.save(name, price, quantity, category, manufacturer);
+        return Optional.of(this.productRepository.save(new Product(name, price, quantity, category, manufacturer)));
     }
 
     @Override

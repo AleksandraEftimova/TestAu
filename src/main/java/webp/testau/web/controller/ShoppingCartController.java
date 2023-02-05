@@ -19,7 +19,7 @@ public class ShoppingCartController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @GetMapping
+    @GetMapping("/")
     public String getShoppingCartPage(@RequestParam(required = false) String error,
                                       HttpServletRequest req, Model model){
         if(error != null && !error.isEmpty()) {
@@ -29,6 +29,10 @@ public class ShoppingCartController {
         User user = (User) req.getSession().getAttribute("user");
         ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(user.getUsername());
         model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
+//        String username = req.getRemoteUser();
+//        ShoppingCart shoppingCart = this.shoppingCartService.getActiveShoppingCart(username);
+//        model.addAttribute("products", this.shoppingCartService.listAllProductsInShoppingCart(shoppingCart.getId()));
+//        model.addAttribute("bodyContent", "shopping-cart");
         return "shopping-cart";
     }
 

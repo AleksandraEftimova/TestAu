@@ -25,23 +25,23 @@ public class DataHolder {
     //lista od kosnicki
     public static List<ShoppingCart> shoppingCarts = new ArrayList<>();
 
-    @PostConstruct
-    public void init(){
-        categories.add(new Category("Books", "Books category"));
-        categories.add(new Category("Movies", "Movies category"));
-        categories.add(new Category("Software", "Software category"));
-
-        users.add(new User("Username1", "pass1", "Name1", "Surname1"));
-        users.add(new User("Username2", "pass2", "Name2", "Surname2"));
-
-        Manufacturer manufacturer = new Manufacturer("Nike", "NYNY");
-        manufacturers.add(manufacturer);
-
-        Category category = new Category("Sport", "Sport category");
-        categories.add(category);
-        products.add(new Product("Ball1", 127.0, 7, category, manufacturer));
-        products.add(new Product("Ball2", 127.0, 7, category, manufacturer));
-        products.add(new Product("Ball3", 127.0, 7, category, manufacturer));
-
-    }
+//    @PostConstruct
+//    public void init(){
+//        categories.add(new Category("Books", "Books category"));
+//        categories.add(new Category("Movies", "Movies category"));
+//        categories.add(new Category("Software", "Software category"));
+//
+//        users.add(new User("Username1", "pass1", "Name1", "Surname1"));
+//        users.add(new User("Username2", "pass2", "Name2", "Surname2"));
+//
+//        Manufacturer manufacturer = new Manufacturer("Nike", "NYNY");
+//        manufacturers.add(manufacturer);
+//
+//        Category category = new Category("Sport", "Sport category");
+//        categories.add(category);
+//        products.add(new Product("Ball1", 127.0, 7, category, manufacturer));
+//        products.add(new Product("Ball2", 127.0, 7, category, manufacturer));
+//        products.add(new Product("Ball3", 127.0, 7, category, manufacturer));
+//
+//    }
 }

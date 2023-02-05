@@ -2,7 +2,8 @@ package webp.testau.service.implementations;
 
 import org.springframework.stereotype.Service;
 import webp.testau.model.Category;
-import webp.testau.repository.InMemoryCategoryRepository;
+import webp.testau.repository.impl.InMemoryCategoryRepository;
+import webp.testau.repository.jpa.CategoryRepository;
 import webp.testau.service.CategoryService;
 
 import java.util.List;
@@ -11,13 +12,19 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final InMemoryCategoryRepository categoryRepository;
+//    private final InMemoryCategoryRepository categoryRepository;
+
+    private final CategoryRepository categoryRepository;
 
     //injecting dependencies, constructor-based tuka
     //vo ramkite na samiot konstruktor, koga ke se istancira samata
     //CategoryService implementacija, treba soodvetno i da se dodadat
     //zavisnosti do repozitorijata
-    public CategoryServiceImpl (InMemoryCategoryRepository categoryRepository){
+//    public CategoryServiceImpl (InMemoryCategoryRepository categoryRepository){
+//        this.categoryRepository = categoryRepository;
+//    }
+
+    public CategoryServiceImpl (CategoryRepository categoryRepository){
         this.categoryRepository = categoryRepository;
     }
 
@@ -46,7 +53,8 @@ public class CategoryServiceImpl implements CategoryService {
         if (name==null || name.isEmpty()){
             throw new IllegalArgumentException();
         }
-        categoryRepository.delete(name);
+//        categoryRepository.delete(name);
+        categoryRepository.deleteByName(name);
     }
 
     @Override
@@ -56,6 +64,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public List<Category> searchCategories(String searchText) {
-        return categoryRepository.search(searchText);
+//        return categoryRepository.search(searchText);
+        return categoryRepository.findAllByNameLike(searchText);
     }
 }

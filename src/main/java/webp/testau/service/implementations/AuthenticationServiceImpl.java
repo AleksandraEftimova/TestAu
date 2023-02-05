@@ -5,16 +5,19 @@ import webp.testau.model.User;
 import webp.testau.model.exceptions.InvalidArgumentsException;
 import webp.testau.model.exceptions.InvalidUserCredentialsException;
 import webp.testau.model.exceptions.PasswordDoNotMatchException;
-import webp.testau.repository.InMemoryUserRepository;
+import webp.testau.model.exceptions.UsernameAlreadyExistsException;
+import webp.testau.repository.impl.InMemoryUserRepository;
+import webp.testau.repository.jpa.UserRepository;
 import webp.testau.service.AuthenticationService;
 
 @Service
 public class AuthenticationServiceImpl implements AuthenticationService {
 
     //zavisnosti, podobro da se site final
-    private final InMemoryUserRepository userRepository;
+//    private final InMemoryUserRepository userRepository;
+    private final UserRepository userRepository;
 
-    public AuthenticationServiceImpl(InMemoryUserRepository userRepository) {
+    public AuthenticationServiceImpl(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
 
@@ -39,9 +42,13 @@ public class AuthenticationServiceImpl implements AuthenticationService {
         if (!password.equals(repeatPassword)){
             throw new PasswordDoNotMatchException();
         }
+
+        if (this.userRepository.findByUsername(username).isPresent()
+            || !this.userRepository.findByUsername(username).isEmpty()){
+            throw new UsernameAlreadyExistsException(username);
+        }
         //ako ne postoi takov korisnik togas go kreirame
         User user = new User(username, password, name, surname);
-
-        return userRepository.saveOrUpdate(user);
+        return userRepository.save(user);
     }
 }

@@ -1,4 +1,4 @@
-package webp.testau.repository;
+package webp.testau.repository.impl;
 
 import org.springframework.stereotype.Repository;
 import webp.testau.bootstrap.DataHolder;
