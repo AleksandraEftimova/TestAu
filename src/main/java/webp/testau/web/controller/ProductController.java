@@ -1,5 +1,6 @@
 package webp.testau.web.controller;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -56,12 +57,15 @@ public class ProductController {
     //mapping za  strana so forma za dodavanje/editiranje proizvod
     //ni treba model oti gi listame site i po izbor da gi odbere
     @GetMapping("/add-form")
+    //ogranicuva pristap do formata samo za admin role useri
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     public String addProductPage(Model model){
         List<Category> categories = this.categoryService.listCategories();
         List<Manufacturer> manufacturers = this.manufacturerService.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("manufacturers", manufacturers);
-        return "addProduct";
+        model.addAttribute("bodyContent", "addProduct");
+        return "master-template";
     }
 
     //editing product
@@ -76,7 +80,8 @@ public class ProductController {
             model.addAttribute("categories", categories);
             model.addAttribute("manufacturers", manufacturers);
             model.addAttribute("product", product);
-            return "addProduct";
+            model.addAttribute("bodyContent", "addProduct");
+            return "master-template";
         }
         //ako ne pa prikazi greska (tuka napravivme promena vo getProductPage pogore
         return "redirect:/products?error=ProductNotFound";
