@@ -16,9 +16,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //injecting Password Encoder
     private final PasswordEncoder passwordEncoder;
+    private final CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider;
 
-    public WebSecurityConfig(PasswordEncoder passwordEncoder) {
+    public WebSecurityConfig(PasswordEncoder passwordEncoder, CustomUsernamePasswordAuthenticationProvider customUsernamePasswordAuthenticationProvider) {
         this.passwordEncoder = passwordEncoder;
+        this.customUsernamePasswordAuthenticationProvider = customUsernamePasswordAuthenticationProvider;
     }
 
 
@@ -62,16 +64,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     //vo ovoj slucaj InMemoryAuthetication
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.inMemoryAuthentication()
-                .withUser("Username1")
-                //enkripcija na passwordite
-                .password(passwordEncoder.encode("pass1"))
-                //authorities, permisii
-                .authorities("ROLE_USER")
-                //dodavanje sleden korisnik
-                .and()
-                .withUser("Admin")
-                .password(passwordEncoder.encode("admin"))
-                .authorities("ROLE_ADMIN");
+//        auth.inMemoryAuthentication()
+//                .withUser("Username1")
+//                //enkripcija na passwordite
+//                .password(passwordEncoder.encode("pass1"))
+//                //authorities, permisii
+//                .authorities("ROLE_USER")
+//                //dodavanje sleden korisnik
+//                .and()
+//                .withUser("Admin")
+//                .password(passwordEncoder.encode("admin"))
+//                .authorities("ROLE_ADMIN");
+        auth.authenticationProvider(customUsernamePasswordAuthenticationProvider);
     }
 }
