@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Products</title>
@@ -82,7 +82,7 @@
                         </thead>
                         <tbody>
                         <!-- Za sekoj produkt prikazi go slednoto -->
-                        <tr th:each="product : ${products}">
+                        <tr th:each="product : ${products}" class="product">
                             <td th:text="${product.getName()}"></td>
                             <td th:text="${product.getPrice()}"></td>
                             <!-- Proverka dali postoi objekt od proizvoditel i kategorija-->
@@ -95,9 +95,10 @@
                             <td class="text-right">
                                 <!-- Delete kopce -->
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <form th:method="delete"
-                                          th:action="@{'/products/delete/{id}' (id=${product.getId()})}">
-                                        <button type="submit" class="btn btn-sm btn-danger">
+                                    <form th:action="@{'/products/delete/{id}' (id=${product.getId()})}"
+                                          th:method="DELETE">
+                                        <button type="submit"
+                                                class="btn btn-sm btn-danger delete-product">
                                             <i class="fa fa-trash">Delete</i>
                                         </button>
                                     </form>
@@ -105,16 +106,18 @@
 
                                 <!-- Edit kopce -->
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
-                                    <a class="btn btn-sm btn-info"
-                                       th:href="@{'/products/edit-form/{id}'(id=${product.getId()})}">
+                                    <a th:href="@{'/products/edit-form/{id}' (id=${product.getId()})}"
+                                       class="btn btn-sm btn-info edit-product">
                                         <i class="fa fa-trash">Edit</i>
                                     </a>
                                 </th:block>
 
                                 <!-- Add to cart kopce-->
-                                <form th:method="post"
-                                      th:action="@{'/shopping-cart/add-product/{id}' (id=${product.getId()})}">
-                                    <button type="submit" class="btn btn-sm btn-danger">
+                                <form th:action="@{'/shopping-cart/add-product/{id}' (id=${product.getId()})}"
+                                      th:method="POST"
+                                      sec:authorize="isAuthenticated()">
+                                    <button type="submit"
+                                            class="btn btn-sm btn-primary cart-product">
                                         <i class="fa fa-trash">Add product to cart</i>
                                     </button>
                                 </form>

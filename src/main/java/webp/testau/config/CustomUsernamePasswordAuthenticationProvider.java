@@ -38,7 +38,7 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
 
         //proverka dali lozinkite se matching decrypted input with pass from our base
         if (!passwordEncoder.matches(password, userDetails.getPassword())){
-            throw new BadCredentialsException("Invalid Credentials");
+            throw new BadCredentialsException("Password is incorrect!");
         }
 
         //ako se e ok togas treba da vratime new instance of User i site podatoci bitni za nego

@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import webp.testau.model.User;
-import webp.testau.model.enumerations.Role;
+import webp.testau.model.Role;
 import webp.testau.model.exceptions.InvalidArgumentsException;
 import webp.testau.model.exceptions.PasswordDoNotMatchException;
 import webp.testau.model.exceptions.UsernameAlreadyExistsException;
@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User register(String username, String password, String repeatPassword, String name, String surname, Role role) {
         //proverka
-        if (username==null || username.isEmpty() || password==null ||password.isEmpty()){
+        if (username==null || username.isEmpty() || password==null || password.isEmpty()){
             throw new InvalidArgumentsException();
         }
         if (!password.equals(repeatPassword)){

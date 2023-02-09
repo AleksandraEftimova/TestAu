@@ -2,7 +2,7 @@ package webp.testau.service;
 
 import org.springframework.security.core.userdetails.UserDetailsService;
 import webp.testau.model.User;
-import webp.testau.model.enumerations.Role;
+import webp.testau.model.Role;
 
 //extends i pravi proverka dali userot postoi vo nasata baza
 public interface UserService extends UserDetailsService {

@@ -1,4 +1,4 @@
-package webp.testau.model.enumerations;
+package webp.testau.model;
 
 import org.springframework.security.core.GrantedAuthority;
 
@@ -9,7 +9,7 @@ public enum Role implements GrantedAuthority {
     //se povikuva koga user gets a role
     @Override
     public String getAuthority() {
-        //vrakja role
+        //vrakja role od pogore tie
         return name();
     }
 }
