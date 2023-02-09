@@ -33,7 +33,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 //koi strani treba da se dostapni/dozvoleni od koi korisnici
                 //dozvoleni za site
-                .antMatchers("/", "/home", "/assets/**", "/register").permitAll()
+                .antMatchers("/", "/home", "/assets/**", "/register", "/products").permitAll()
                 //samo za admini
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 //site ostanati sto ne se spomenati

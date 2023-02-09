@@ -6,8 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import webp.testau.model.ShoppingCart;
 import webp.testau.model.User;
 import webp.testau.service.ShoppingCartService;
+import org.springframework.security.core.Authentication;
 
 import javax.servlet.http.HttpServletRequest;
+import java.security.Principal;
 
 @Controller
 @RequestMapping("/shopping-cart")
@@ -40,11 +42,14 @@ public class ShoppingCartController {
     }
 
     @PostMapping("/add-product/{id}")
-    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req) {
+    public String addProductToShoppingCart(@PathVariable Long id, HttpServletRequest req, Authentication authentication) {
         try {
 //            User user = (User) req.getSession().getAttribute("user");
-            String username = req.getRemoteUser();
-            ShoppingCart shoppingCart = this.shoppingCartService.addProductToShoppingCart(username, id);
+            //promeni
+//            String username = req.getRemoteUser();
+//            ShoppingCart shoppingCart = this.shoppingCartService.addProductToShoppingCart(username, id);
+            User user = (User) authentication.getPrincipal();
+            this.shoppingCartService.addProductToShoppingCart(user.getUsername(), id);
             return "redirect:/shopping-cart";
         } catch (RuntimeException exception){
             return "redirect:/shopping-cart?error=" + exception.getMessage();

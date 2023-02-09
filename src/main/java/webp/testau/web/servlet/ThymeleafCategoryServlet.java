@@ -33,6 +33,7 @@ public class ThymeleafCategoryServlet extends HttpServlet {
         context.setVariable("ipaddress", req.getRemoteAddr());
         context.setVariable("clientAgent", req.getHeader("User-Agent"));
         context.setVariable("categories", this.categoryService.listCategories());
+        resp.setContentType("application/xhtml+xml");
 
         this.springTemplateEngine.process("categories.html",
                 context, resp.getWriter());

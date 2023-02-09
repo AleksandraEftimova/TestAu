@@ -1,76 +1,15 @@
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Products</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-    <!-- Optional JavaScript -->
-    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-            crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"
-            integrity="sha384-cs/chFZiN24E4KMATLdqdvsezGxaGsi4hLGOzlXwp5UZB1LY//20VyM2taTB4QvJ"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"
-            integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm"
-            crossorigin="anonymous"></script>
-
-
-</head>
-<body>
-<!--<nav class="navbar navbar-expand-md navbar-dark bg-dark">-->
-<!--    <div class="container">-->
-<!--        <a class="navbar-brand" href="/home">WEB PROGRAMMING SHOP</a>-->
-<!--        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="navbarsExampleDefault">-->
-<!--            <span class="navbar-toggler-icon"></span>-->
-<!--        </button>-->
-
-<!--        <div class="collapse navbar-collapse justify-content-end" id="navbarsExampleDefault">-->
-<!--            <ul class="navbar-nav m-auto">-->
-<!--                <li class="nav-item m-auto">-->
-<!--                    <a class="nav-link active" href="/home">Home</a>-->
-<!--                </li>-->
-<!--                <li class="nav-item m-auto">-->
-<!--                    <a class="nav-link active" href="/products">Products</a>-->
-<!--                </li>-->
-<!--            </ul>-->
-
-<!--            <form class="form-inline my-2 my-lg-8">-->
-<!--                <div class="input-group input-group-sm">-->
-<!--                    <input type="text" class="form-control" placeholder="Search...">-->
-<!--                    <div class="input-group-append">-->
-<!--                        <button type="button" class="btn btn-secondary btn-number">-->
-<!--                            <i class="fa fa-search"></i>-->
-<!--                        </button>-->
-<!--                    </div>-->
-<!--                    <a class="btn btn-primary btn-sm ml-3" href="/logout">-->
-<!--                        <i class="fa fa-shopping-cart"></i>-->
-<!--                        Logout-->
-<!--                    </a>-->
-
-<!--                    <a class="btn btn-light btn-sm ml-3" href="/shopping-cart">-->
-<!--                        <i class="fa fa-shopping-cart"></i>-->
-<!--                        Cart-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </form>-->
-<!--        </div>-->
-<!--    </div>-->
-<!--</nav>-->
-<th:block>
+<div xmlns:th="http://www.thymeleaf.org">
     <section class="jumbotron text-center">
         <div class="container">
             <h1 class="jumbotron-heading">WEB PROGRAMMING SHOP</h1>
+            <h3 class="jumbotron-heading">All products</h3>
         </div>
     </section>
 
-    <!-- Pretstavuvanje na site produkti -->
-    <div class="container mb-5">
+    <div class="container mb-4">
         <div class="row">
-            <!-- Uslov samo ako ima produkti -->
             <div class="col-12" th:if="${products.size() > 0}">
-                <div class="table table-responsive">
+                <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
                         <tr>
@@ -81,19 +20,14 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <!-- Za sekoj produkt prikazi go slednoto -->
                         <tr th:each="product : ${products}" class="product">
                             <td th:text="${product.getName()}"></td>
                             <td th:text="${product.getPrice()}"></td>
-                            <!-- Proverka dali postoi objekt od proizvoditel i kategorija-->
                             <td th:text="${product.getManufacturer() != null}
                             ? ${product.getManufacturer().getName()} : 'No Manufacturer'"></td>
                             <td th:text="${product.getCategory() != null}
                             ? ${product.getCategory().getName()} : 'No Category'"></td>
-
-
                             <td class="text-right">
-                                <!-- Delete kopce -->
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <form th:action="@{'/products/delete/{id}' (id=${product.getId()})}"
                                           th:method="DELETE">
@@ -103,16 +37,12 @@
                                         </button>
                                     </form>
                                 </th:block>
-
-                                <!-- Edit kopce -->
                                 <th:block sec:authorize="hasRole('ROLE_ADMIN')">
                                     <a th:href="@{'/products/edit-form/{id}' (id=${product.getId()})}"
                                        class="btn btn-sm btn-info edit-product">
                                         <i class="fa fa-trash">Edit</i>
                                     </a>
                                 </th:block>
-
-                                <!-- Add to cart kopce-->
                                 <form th:action="@{'/shopping-cart/add-product/{id}' (id=${product.getId()})}"
                                       th:method="POST"
                                       sec:authorize="isAuthenticated()">
@@ -127,59 +57,15 @@
                     </table>
                 </div>
             </div>
-
-            <!-- Posebno kopce za dodavanje produkt -->
             <div class="col mb-3">
                 <div class="row">
-                    <div class="col-sm-12 col-md-12">
-                        <a href="/products/add-form" class="btn btn-block btn-dark">Add new product</a>
+                    <div class="col-sm-12 col-md-12" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a href="/products/add-form" class="btn btn-block btn-dark add-product-btn">
+                            Add new product
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!--<footer class="text-black-50 mt-xl-5">-->
-    <!--    <div class="container">-->
-    <!--        <div class="row">-->
-    <!--            <div class="col-md-3 col-lg-4 col-xl-3">-->
-    <!--                <h5>About</h5>-->
-    <!--                <hr class="bg-white mb-2 mt-0 d-inline-block mx-auto w-25">-->
-    <!--                <p class="mb-8"> Le Lorem Impsum est simplement du faux texte employe dans la composition et mise en place dans l'impression.</p>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">-->
-    <!--                <h5>Information</h5>-->
-    <!--                <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                    <li><a href="">Link 1</a></li>-->
-    <!--                    <li><a href="">Link 2</a></li>-->
-    <!--                    <li><a href="">Link 3</a></li>-->
-    <!--                    <li><a href="">Link 4</a></li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">-->
-    <!--                <h5>Other links</h5>-->
-    <!--                <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                    <li><a href="">Link 1</a></li>-->
-    <!--                    <li><a href="">Link 2</a></li>-->
-    <!--                    <li><a href="">Link 3</a></li>-->
-    <!--                    <li><a href="">Link 4</a></li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--            <div class="col-md-2 col-lg-2 col-xl-2 mx-auto">-->
-    <!--                <h5>Contact</h5>-->
-    <!--                <hr class="bg-white wb-2 mt-0 d-inline-block mx-auto w-25">-->
-    <!--                <ul class="list-unstyled">-->
-    <!--                    <li>My company</li>-->
-    <!--                    <li>email@example.com</li>-->
-    <!--                    <li>+11 12 13 14 15</li>-->
-    <!--                    <li>+11 12 13 14 15</li>-->
-    <!--                </ul>-->
-    <!--            </div>-->
-    <!--        </div>-->
-    <!--    </div>-->
-    <!--</footer>-->
-</th:block>
-</body>
-</html>
+</div>
